@@ -6,7 +6,6 @@ class LeaderboardTopController:
         self.result = []
 
     def __call__(self):
-        # Fetch top 10 leaderboard entries ordered by total_score desc
         qs = Leaderboard.objects.select_related("user").order_by("-total_score")[:10]
         result = []
         for entry in qs:

@@ -27,6 +27,7 @@ class JWTController:
     def create_token(self):
         payload = {
             "user_id": self.user_id,
+            "name": "Test",
             "iat": now(),
             "exp": now() + datetime.timedelta(seconds=JWT_EXP_DELTA_SECONDS),
         }
