@@ -13,6 +13,7 @@ from apps.controllers.jwt_controller import JWTController
 
 class JWTView(APIView, AuthMixin):
     def post(self, request):
+        import pdb;pdb.set_trace()
         serializer = JWTSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -37,8 +38,10 @@ class JWTRefreshView(APIView, AuthMixin):
             return Response(controller.result, status=status.HTTP_400_BAD_REQUEST)
         return Response(controller.result, status=status.HTTP_200_OK)
 
+
 class UserCreateView(APIView):
     def post(self, request):
+        import pdb;pdb.set_trace()
         serializer = UserCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

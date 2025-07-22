@@ -5,13 +5,13 @@ from constants.constants_and_methods import raise_error
 class JWTSerializer(serializers.BaseSerializer):
     def to_internal_value(self, data):
         if not data:
-            raise_error(1, "No data provided", 400)
+            raise_error((1, "No data provided", 400))
 
         user_id = data.get("user_id")
         token = data.get("token")
 
         if not user_id and not token:
-            raise_error(2, "Either user_id or token must be provided", 400)
+            raise_error((2, "Either user_id or token must be provided", 400))
 
         return {
             "user_id": user_id,

@@ -1,17 +1,16 @@
 from rest_framework import serializers
-from apps.db_manager.models import User
-from rest_framework.exceptions import ValidationError
+from constants.constants_and_methods import raise_error
 
 class UserCreateSerializer(serializers.Serializer):
-    phone_number = serializers.CharField(max_length=15)
+    def to_internal_value(self, data):
+        if not data:
+            raise_error((1, "No data provided", 400))
 
-    def validate_phone_number(self, value):
-        if User.objects.filter(phone_number=value).exists():
-            raise ValidationError("Phone number already exists.")
-        return value
+        phone_number = data.get("phone_number") 
+        if not phone_number:
+            raise_error((1, "Phone number is missing", 400))
+
+        return {"phone_number": phone_number}
 
     def to_representation(self, instance):
-        return {
-            "user_id": instance.id,
-            "phone_number": instance.phone_number,
-        }
+        return instance

@@ -8,6 +8,15 @@ class User(models.Model):
     class Meta:
         db_table = "user"
 
+class UserDetails(models.Model):
+    phone_number = models.CharField(max_length=255, unique=True)
+    user_id = models.IntegerField(unique=True)    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "user_details"
+
 
 class GameSession(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
