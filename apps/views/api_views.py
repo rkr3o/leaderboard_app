@@ -8,15 +8,17 @@ from apps.serializers.player_rank_serializer import PlayerRankSerializer
 from apps.serializers.submit_score_serializer import SubmitScoreSerializer
 from apps.controllers.submit_score_controller import SubmitScoreController
 
+
 class SubmitScoreView(APIView):
     def post(self, request):
         ser = SubmitScoreSerializer(data=request.data)
         ser.is_valid()
         instance = SubmitScoreController(request.data)
         instance()
-        
+
         response_data = instance.result
         return Response(response_data, status=status.HTTP_200_OK)
+
 
 class LeaderboardTopView(APIView):
     def get(self, request):

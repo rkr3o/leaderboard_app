@@ -6,6 +6,7 @@ class PlayerRankController:
 
     def __call__(self):
         from django.shortcuts import get_object_or_404
+
         entry = get_object_or_404(Leaderboard, user_id=self.user_id)
         self.result = {
             "user_id": self.user_id,

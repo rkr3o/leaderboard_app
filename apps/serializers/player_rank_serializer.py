@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from constants.constants_and_methods import raise_error
 
+
 class PlayerRankSerializer(serializers.BaseSerializer):
     def to_internal_value(self, data):
         user_id = data.get("user_id")
