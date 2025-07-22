@@ -19,7 +19,6 @@ class SubmitScoreSerializer(serializers.BaseSerializer):
         if not isinstance(game_mode, str):
             raise_error(4, "game_mode must be a string", 400)
 
-        # Return the validated dictionary
         return {
             "user_id": user_id,
             "score": score,

@@ -23,7 +23,7 @@ class GameSession(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     score = models.IntegerField()
     game_mode = models.CharField(max_length=50)
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "gamesession"
@@ -33,9 +33,7 @@ class GameSession(models.Model):
 
 
 class Leaderboard(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, db_column="user_id", unique=True
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # defaults to user_id column
     total_score = models.IntegerField()
     rank = models.IntegerField(null=True, blank=True)
 
