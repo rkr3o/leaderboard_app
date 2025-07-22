@@ -35,7 +35,6 @@ class LeaderboardTopView(APIView, AuthMixin):
 
 class PlayerRankView(APIView, AuthMixin):
     def get(self, request):
-        import pdb;pdb.set_trace()
         self.validate_frontend_calls(request)
 
         ser = PlayerRankSerializer(data=request.query_params)
