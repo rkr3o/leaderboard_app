@@ -1,11 +1,11 @@
 from django.urls import include, path
-from apps.views.token_views import JWTRefreshView, JWTView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from apps.views.user_views import JWTRefreshView, JWTView, UserCreateView
 from apps.views.api_views import LeaderboardTopView, PlayerRankView, SubmitScoreView
 
-token_urls = [
+user_urls = [
     path("token/", JWTView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", JWTRefreshView.as_view(), name="token_refresh"),
+    path("create/user/", UserCreateView.as_view(), name="user_create"),
 ]
 
 leaderboard_urls = [
@@ -15,6 +15,6 @@ leaderboard_urls = [
 ]
 
 urlpatterns = [
-    path("user/", include((token_urls, "user"))),
+    path("user/", include((user_urls, "user"))),
     path("leaderboard/", include((leaderboard_urls, "leaderboard"))),
 ]
