@@ -1,3 +1,4 @@
+from apps.common.authmixin import AuthMixin
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,7 +10,7 @@ from apps.serializers.submit_score_serializer import SubmitScoreSerializer
 from apps.controllers.submit_score_controller import SubmitScoreController
 
 
-class SubmitScoreView(APIView):
+class SubmitScoreView(APIView, AuthMixin):
     def post(self, request):
         ser = SubmitScoreSerializer(data=request.data)
         ser.is_valid()
@@ -20,9 +21,8 @@ class SubmitScoreView(APIView):
         return Response(response_data, status=status.HTTP_200_OK)
 
 
-class LeaderboardTopView(APIView):
+class LeaderboardTopView(APIView, AuthMixin):
     def get(self, request):
-        # Pass query params for validation
         ser = LeaderboardTopSerializer(data=request.query_params)
         ser.is_valid(raise_exception=True)
         instance = LeaderboardTopController(request.query_params)

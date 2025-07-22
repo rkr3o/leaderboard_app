@@ -31,3 +31,19 @@ class Leaderboard(models.Model):
 
     class Meta:
         db_table = "leaderboard"
+
+
+class JWTToken(models.Model):
+    user_id = models.BigIntegerField() 
+    token = models.TextField(unique=True)  
+    created_at = models.DateTimeField(auto_now_add=True)
+    expired_at = models.DateTimeField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)  
+
+    class Meta:
+        db_table = 'jwt_tokens'
+        indexes = [
+            models.Index(fields=['user_id']),
+            models.Index(fields=['token']),
+            models.Index(fields=['is_active']),
+        ]

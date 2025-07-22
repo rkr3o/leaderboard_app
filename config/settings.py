@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "apps.apps.GameConfig",
     "corsheaders",
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +89,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
