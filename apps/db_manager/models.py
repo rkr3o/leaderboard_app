@@ -33,7 +33,9 @@ class GameSession(models.Model):
 
 
 class Leaderboard(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  # defaults to user_id column
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE
+    )  # defaults to user_id column
     total_score = models.IntegerField()
     rank = models.IntegerField(null=True, blank=True)
 

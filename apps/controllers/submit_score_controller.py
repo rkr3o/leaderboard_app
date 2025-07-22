@@ -11,14 +11,16 @@ class SubmitScoreController:
         self.user_id = self.data.get("user_id")
         self.score = self.data.get("score")
         self.game_mode = self.data.get("game_mode", "solo")
-        self.leaderboard_obj, _ = Leaderboard.objects.get_or_create(user_id=self.user_id)
+        self.leaderboard_obj, _ = Leaderboard.objects.get_or_create(
+            user_id=self.user_id
+        )
         self.result = {}
 
     def __call__(self, *args, **kwargs):
         try:
             with transaction.atomic():
                 GameSession.objects.create(
-                    user_id=self.user_id, score=self.score, game_mode=self.game_mode  
+                    user_id=self.user_id, score=self.score, game_mode=self.game_mode
                 )
                 self.leaderboard_obj.total_score += self.score
                 self.leaderboard_obj.save()

@@ -10,7 +10,7 @@ user_urls = [
 
 leaderboard_urls = [
     path("top/", LeaderboardTopView.as_view(), name="leaderboard-top"),
-    path("rank/<int:user_id>/", PlayerRankView.as_view(), name="player-rank"),
+    path("rank/", PlayerRankView.as_view(), name="player-rank"),
     path("submit/", SubmitScoreView.as_view(), name="submit-score"),
 ]
 

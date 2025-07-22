@@ -33,13 +33,15 @@ class LeaderboardTopView(APIView, AuthMixin):
         return Response(response_data, status=status.HTTP_200_OK)
 
 
-class PlayerRankView(APIView):
-    def get(self, request, user_id):
-        # Include path param user_id + query params if any
-        data = {"user_id": user_id, **request.query_params}
-        ser = PlayerRankSerializer(data=data)
+class PlayerRankView(APIView, AuthMixin):
+    def get(self, request):
+        import pdb;pdb.set_trace()
+        self.validate_frontend_calls(request)
+
+        ser = PlayerRankSerializer(data=request.query_params)
         ser.is_valid(raise_exception=True)
-        instance = PlayerRankController(data)
+
+        instance = PlayerRankController(request.query_params)
         instance()
         response_data = instance.result
         return Response(response_data, status=status.HTTP_200_OK)

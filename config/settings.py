@@ -135,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "en-us"
 
 
-TIME_ZONE = 'Asia/Kolkata'  # or your local timezone
+TIME_ZONE = "Asia/Kolkata"  # or your local timezone
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)

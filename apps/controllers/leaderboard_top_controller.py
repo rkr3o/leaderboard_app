@@ -7,7 +7,7 @@ class LeaderboardTopController:
 
     def __call__(self):
         self.process_db_call()
-    
+
     def process_db_call(self):
         qs = Leaderboard.objects.select_related("user").order_by("-total_score")[:10]
         result = []
