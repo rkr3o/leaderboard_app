@@ -35,20 +35,30 @@ HEADERS = {
 
 API_BASE_URL = "http://localhost:8000/api/leaderboard/"
 
+
 # Simulate score submission
 def submit_score(user_id):
     score = random.randint(100, 10000)
-    requests.post(f"{API_BASE_URL}submit/", json={"user_id": user_id, "score": score}, headers=HEADERS)
+    requests.post(
+        f"{API_BASE_URL}submit/",
+        json={"user_id": user_id, "score": score},
+        headers=HEADERS,
+    )
+
 
 # Fetch top players
 def get_top_players():
     response = requests.get(f"{API_BASE_URL}top/", headers=HEADERS)
     return response.json()
 
+
 # Fetch user rank
 def get_user_rank(user_id):
-    response = requests.get(f"{API_BASE_URL}rank/", headers=HEADERS, params={"user_id": user_id})
+    response = requests.get(
+        f"{API_BASE_URL}rank/", headers=HEADERS, params={"user_id": user_id}
+    )
     return response.json()
+
 
 if __name__ == "__main__":
     while True:
