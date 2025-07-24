@@ -12,7 +12,7 @@ from apps.controllers.submit_score_controller import SubmitScoreController
 
 class SubmitScoreView(APIView, AuthMixin):
     def post(self, request):
-        self.validate_frontend_calls(request)
+        # self.validate_frontend_calls(request)
         ser = SubmitScoreSerializer(data=request.data)
         ser.is_valid()
         instance = SubmitScoreController(request.data)
@@ -24,7 +24,7 @@ class SubmitScoreView(APIView, AuthMixin):
 
 class LeaderboardTopView(APIView, AuthMixin):
     def get(self, request):
-        self.validate_frontend_calls(request)
+        # self.validate_frontend_calls(request)
         ser = LeaderboardTopSerializer(data=request.query_params)
         ser.is_valid(raise_exception=True)
         instance = LeaderboardTopController(request.query_params)
@@ -35,7 +35,7 @@ class LeaderboardTopView(APIView, AuthMixin):
 
 class PlayerRankView(APIView, AuthMixin):
     def get(self, request):
-        self.validate_frontend_calls(request)
+        # self.validate_frontend_calls(request)
 
         ser = PlayerRankSerializer(data=request.query_params)
         ser.is_valid(raise_exception=True)

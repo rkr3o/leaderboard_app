@@ -12,41 +12,48 @@ from django.db.models import Sum
 from django.db import transaction
 from apps.db_manager.models import GameSession, Leaderboard
 
+import requests
+import random
+import time
 
-def bulk_create_leaderboard():
-    # Aggregate total scores per user
-    user_scores = (
-        GameSession.objects.values("user")
-        .annotate(total_score=Sum("score"))
-        .order_by("-total_score")
-    )
+HEADERS = {
+    "Accept": "*/*",
+    "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
+    "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJuYW1lIjoiVGVzdCIsImlhdCI6MTc1MzI5NDA2NywiZXhwIjoxNzUzMjk3NjY3fQ.MR2ZXZo7fZBmpMG1SsJt6tzxjg7FQjmfAK-Qs0itgjk",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "DNT": "1",
+    "Origin": "http://localhost:3000",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "cross-site",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+    "sec-ch-ua": '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"macOS"',
+}
 
-    leaderboard_entries = []
-    rank = 1
-    prev_score = None
-    same_rank_count = 0
+API_BASE_URL = "http://localhost:8000/api/leaderboard/"
 
-    for entry in user_scores:
-        user_id = entry["user"]
-        total_score = entry["total_score"]
+# Simulate score submission
+def submit_score(user_id):
+    score = random.randint(100, 10000)
+    requests.post(f"{API_BASE_URL}submit/", json={"user_id": user_id, "score": score}, headers=HEADERS)
 
-        if total_score == prev_score:
-            same_rank_count += 1
-        else:
-            rank += same_rank_count
-            same_rank_count = 1
-        prev_score = total_score
+# Fetch top players
+def get_top_players():
+    response = requests.get(f"{API_BASE_URL}top/", headers=HEADERS)
+    return response.json()
 
-        leaderboard_entries.append(
-            Leaderboard(user_id=user_id, total_score=total_score, rank=rank)
-        )
-
-    with transaction.atomic():
-        Leaderboard.objects.all().delete()  # clear old entries
-        Leaderboard.objects.bulk_create(leaderboard_entries)
-
-    print(f"Leaderboard updated with {len(leaderboard_entries)} entries.")
-
+# Fetch user rank
+def get_user_rank(user_id):
+    response = requests.get(f"{API_BASE_URL}rank/", headers=HEADERS, params={"user_id": user_id})
+    return response.json()
 
 if __name__ == "__main__":
-    bulk_create_leaderboard()
+    while True:
+        user_id = random.randint(1, 1000000)
+        submit_score(user_id)
+        print(get_top_players())
+        print(get_user_rank(user_id))
+        time.sleep(random.uniform(0.5, 2))
